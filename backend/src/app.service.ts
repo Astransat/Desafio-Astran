@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common'
-import { resourceLimits } from 'worker_threads'
 import callExternalApi from './utils'
 
 
@@ -52,7 +51,6 @@ export class AppService {
       } else {
         var month = `${ i.getMonth() + 1 }`
       }
-      
       // Handling day
       if (`${i.getDate()}`.length == 1) {
         var day = `0${i.getDate()}`
@@ -121,6 +119,43 @@ export class AppService {
 
     const result = {
       lastPrices: resultArray
+    }
+
+    return result
+  }
+
+  async getGains(stock_name, purchasedAmount, purchasedAt): Promise<Object> {
+    const historyUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${stock_name}&outputsize=full&apikey=${process.env.ALPHAVANTAGE_KEY}`
+    const quoteUrl = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stock_name}&apikey=${process.env.ALPHAVANTAGE_KEY}`
+
+    // Getting all historical stock data
+    const allPrices = await callExternalApi(historyUrl).then((data) => {
+      const response = {
+        body: data
+      }
+      return response
+    })
+
+    const todayStock = await callExternalApi(quoteUrl).then((data) => {
+      const response = {
+        body: data
+      }
+      return response
+    })
+
+    // Handling the numbers as integers, redimensioning only at the output
+    const priceAtDate = (parseInt(allPrices["body"]["Time Series (Daily)"][purchasedAt]['4. close'].replace('.','')))
+    const lastPrice = (parseInt(todayStock["body"]["Global Quote"]["05. price"].replace('.','')))
+
+    const capitalGains = (lastPrice - priceAtDate) * purchasedAmount
+
+    const result = {
+      name: stock_name,
+      purchasedAmount: parseInt(purchasedAmount),
+      purchasedAt,
+      priceAtDate: priceAtDate/10000,
+      lastPrice: lastPrice/10000,
+      capitalGains: capitalGains/10000
     }
 
     return result
