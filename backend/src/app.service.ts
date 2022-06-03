@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common'
+import { resourceLimits } from 'worker_threads'
 import callExternalApi from './utils'
 
 
@@ -9,7 +10,7 @@ export class AppService {
 
     const json = await callExternalApi(url).then((data) => {
       const response = {
-        body: data // pode fazer um JSON.stringfy também
+        body: data
       }
       return response
     })
@@ -19,6 +20,7 @@ export class AppService {
     const result = {
       name: json["body"]["Global Quote"]["01. symbol"],
       lastPrice: price / 10000, //Restoring the number's dimension
+      // Formatar data e hora UTC
       pricedAt: json["body"]["Global Quote"]["07. latest trading day"]
     }
 
@@ -36,7 +38,7 @@ export class AppService {
 
     const allDates = await callExternalApi(url).then((data) => {
       const response = {
-        body: data // pode fazer um JSON.stringfy também
+        body: data
       }
       return response
     })
@@ -73,6 +75,7 @@ export class AppService {
           low,
           high,
           closing,
+          // Formatar para UTC
           pricedAt: date
         }
   
@@ -83,6 +86,41 @@ export class AppService {
     const result = {
       name: stock_name,
       prices
+    }
+
+    return result
+  }
+
+  async getCompareStocks(stock_name, stocks): Promise<Object> {
+    const resultArray = []
+
+    const allStocks = [stock_name].concat(stocks.stocks)
+
+    // Sweeping stocks array to get infos
+    for (var stock in allStocks) {
+      const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${allStocks[stock]}&apikey=${process.env.ALPHAVANTAGE_KEY}`
+  
+      const json = await callExternalApi(url).then((data) => {
+        const response = {
+          body: data
+        }
+        return response
+      })
+  
+      //Working with integers so that we don't encounter rounding problems from language's way of storaging floating numbers
+      const price = parseInt(json["body"]["Global Quote"]["05. price"].replace('.',''))
+      const stockInfo = {
+        name: json["body"]["Global Quote"]["01. symbol"],
+        lastPrice: price / 10000, //Restoring the number's dimension
+        // Formatar data e hora UTC
+        pricedAt: json["body"]["Global Quote"]["07. latest trading day"]
+      }
+
+      resultArray.push(stockInfo)
+    }
+
+    const result = {
+      lastPrices: resultArray
     }
 
     return result
