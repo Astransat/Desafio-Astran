@@ -1,0 +1,27 @@
+p {
+    text-align: center;
+}
+ul {
+    text-align: center;
+}
+form {
+    text-align: center;
+}
+
+.container {
+    width: 100%;
+    display: block;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2em;
+    
+}
+
+
+.items-container {
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 2em;
+}

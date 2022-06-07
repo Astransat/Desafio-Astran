@@ -5,22 +5,21 @@ export default function Gains() {
     const [stock, setStock] = useState('')
     const [amount, setAmount] = useState('')
     const [date, setDate] = useState('')
+    const [data, setData] = useState()
 
     async function handleGains(e: any): Promise<void> {
         e.preventDefault()
 
         try {
             const response = await api.get(`/stocks/${stock}/gains?purchasedAmount=${amount}&purchasedAt=${date}`)
-    
-            alert(JSON.stringify(response.data))
-        } catch (err) {
+            setData(response.data)
             alert(err)
         }
 
     }
 
     return (
-        <div>
+        <div className="container">
             <form id="Gains" onSubmit={handleGains}>
                 <label >Stock's code name</label> <br />
                 <input type="text" value={stock} placeholder="PETR4.SA" onChange={e => setStock(e.target.value)} /> <br />
@@ -30,6 +29,21 @@ export default function Gains() {
                 <input type="text" value={date} placeholder="YYYY-MM-DD" onChange={e => setDate(e.target.value)}/> <br />
                 <input type="submit" value="Submit" form="Gains" />
             </form>
+            <br />
+            <br />
+
+            {
+                data
+                    ?<ul>
+                        <li>Stock: {data.name}</li>
+                        <li>Purchased Amount: {data.purchasedAmount}</li>
+                        <li>Purchased At: {data.purchasedAt}</li>
+                        <li>Price at Purchase: {data.priceAtDate}</li>
+                        <li>Last Price: {data.lastPrice}</li>
+                        <li>Capital Gains: {data.capitalGains}</li>
+                    </ul>
+                    :null
+            }
         </div>
     )
 }

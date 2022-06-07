@@ -1,10 +1,8 @@
-import { useState } from "react"
 import { Link } from 'react-router-dom'
-import api from "../services/api"
 
 export default function Home() {
     return (
-        <div>
+        <div className='container'>
             <p>Choose your option!</p>
             <ul>
                 <li><Link to="/quote">Quote: Stock's most recent information</Link></li>

@@ -3,13 +3,14 @@ import api from "../services/api"
 
 export default function Quote() {
     const [stock, setStock] = useState('')
+    const [data, setData] = useState()
 
     async function handleGetStockQuote(e: any): Promise<void> {
         e.preventDefault()
 
         try {
             const response = await api.get(`stocks/${stock}/quote`)
-            alert(JSON.stringify(response.data))
+            setData(response.data)
             
         } catch (err) {
             alert(JSON.stringify(err))
@@ -17,13 +18,26 @@ export default function Quote() {
     }
     
     return (
-        <div>
+        <div className="container">
             <p>Get stock's most recent informations</p>
-                <form id="getStockQuote" onSubmit={handleGetStockQuote}>
-                    <label htmlFor="">Stock's code name</label> <br />
-                    <input type="text" value={stock} placeholder="PETR4.SA" onChange={e => setStock(e.target.value)} /> <br />
-                    <input type="submit" value="Submit" form="getStockQuote" />
-                </form>
+
+            <form id="getStockQuote" onSubmit={handleGetStockQuote}>
+                <label htmlFor="">Stock's code name</label> <br />
+                <input type="text" value={stock} placeholder="PETR4.SA" onChange={e => setStock(e.target.value)} /> <br />
+                <input type="submit" value="Submit" form="getStockQuote" />
+            </form>
+            <br />
+            <br />
+
+            {
+                data
+                    ?<ul>
+                        <li>Stock: {data.name}</li>
+                        <li>Price: {data.lastPrice}</li>
+                        <li>Date: {data.pricedAt}</li>
+                    </ul>
+                    :null
+            }
         </div>
     )
 }
