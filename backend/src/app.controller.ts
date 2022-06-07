@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Query } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
 import { AppService } from './app.service'
 
 @Controller()
@@ -18,9 +18,8 @@ export class AppController {
     return await this.appService.getStockHistory(stock_name, from, to)
   }
 
-  @Get('/stocks/:stock_name/compare')
-  async getCompareStocks(@Param('stock_name') stock_name: string, @Body() stocks: string) {
-    console.log(stocks)
+  @Post('/stocks/:stock_name/compare')
+  async getCompareStocks(@Param('stock_name') stock_name: string, @Body() stocks: string[]) {
     return await this.appService.getCompareStocks(stock_name, stocks)
   }
 
