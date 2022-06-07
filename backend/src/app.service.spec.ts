@@ -7,7 +7,11 @@ describe('AppService', () => {
         appService = new AppService()
     })
 
-    // It should be noted that I'm not mocking/stub the api's funcionality so some tests may not pass because of the limit calls the free API can receive!
+    /*
+    It should be noted that I'm not mocking/stub the api's funcionality so some tests may not pass because of the limit calls the free API can receive!
+    The limit causes an error that the object returned from the API is:
+    Note: 'Thank you for using Alpha Vantage! Our standard API call frequency is 5 calls per minute and 500 calls per day. Please visit https://www.alphavantage.co/premium/ if you would like to target a higher API call frequency.'
+    */
     it('should return IBM stock informations', async () => {
         const stock_name = 'IBM'
 
