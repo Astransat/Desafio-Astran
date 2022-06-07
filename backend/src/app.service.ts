@@ -43,6 +43,7 @@ export class AppService {
     })
 
     var prices = []
+    const allStocks = allDates["body"]["Time Series (Daily)"]
     
     for (var i = startDate; i <= endDate; i.setDate(i.getDate() + 1 )) {
       // Handling month
@@ -61,24 +62,24 @@ export class AppService {
       const date = `${i.getFullYear()}-${month}-${day}`
 
       // Checking if the date exists in the data so it goes to the prices array
-      if (allDates["body"]["Time Series (Daily)"][date]) {
-        //Working with integers so that we don't encounter rounding problems from language's way of storaging floating numbers
-        const opening = (parseInt(allDates["body"]["Time Series (Daily)"][date]['1. open'].replace('.',''))) / 10000
-        const low = (parseInt(allDates["body"]["Time Series (Daily)"][date]['3. low'].replace('.',''))) / 10000
-        const high = (parseInt(allDates["body"]["Time Series (Daily)"][date]['2. high'].replace('.',''))) / 10000
-        const closing = (parseInt(allDates["body"]["Time Series (Daily)"][date]['4. close'].replace('.',''))) / 10000
-  
-        const price = {
-          opening,
-          low,
-          high,
-          closing,
-          // Formatar para UTC
-          pricedAt: date
-        }
-  
-        prices.push(price)
-      }     
+      if (allStocks.hasOwnProperty(date)) {
+      //   //Working with integers so that we don't encounter rounding problems from language's way of storaging floating numbers
+      const opening = (parseInt(allStocks[date]['1. open'].replace('.',''))) / 10000
+      const low = (parseInt(allStocks[date]['3. low'].replace('.',''))) / 10000
+      const high = (parseInt(allStocks[date]['2. high'].replace('.',''))) / 10000
+      const closing = (parseInt(allStocks[date]['4. close'].replace('.',''))) / 10000
+
+      const price = {
+        opening,
+        low,
+        high,
+        closing,
+        // Formatar para UTC
+        pricedAt: date
+      }
+
+      prices.push(price)
+    }     
     }
 
     const result = {

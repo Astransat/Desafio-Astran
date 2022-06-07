@@ -20,6 +20,7 @@ export class AppController {
 
   @Get('/stocks/:stock_name/compare')
   async getCompareStocks(@Param('stock_name') stock_name: string, @Body() stocks: string) {
+    console.log(stocks)
     return await this.appService.getCompareStocks(stock_name, stocks)
   }
 
