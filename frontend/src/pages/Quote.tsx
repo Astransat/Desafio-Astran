@@ -25,15 +25,15 @@ export default function Quote() {
 
             <form id="getStockQuote" onSubmit={handleGetStockQuote}>
                 <label htmlFor="">Stock's code name</label> <br />
-                <input type="text" value={stock} placeholder="PETR4.SA" onChange={e => setStock(e.target.value)} /> <br />
-                <input type="submit" value="Submit" form="getStockQuote" />
+                <input type="text" className="inputStock" value={stock} placeholder="PETR4.SA" onChange={e => setStock(e.target.value)} /> <br />
+                <input type="submit" className="submitButton" value="Submit" form="getStockQuote" />
             </form>
             <br />
             <br />
 
             {
                 Object.keys(data).length != 0
-                    ?<ul data-testid="stock_list">
+                    ?<ul className="stockData" key={Object.keys(data).length} data-testid="stock_list">
                         <li>Stock: {data.name}</li>
                         <li>Price: {data.lastPrice}</li>
                         <li>Date: {data.pricedAt}</li>

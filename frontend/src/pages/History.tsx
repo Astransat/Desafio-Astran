@@ -25,12 +25,12 @@ export default function History() {
             <p>Get stock's historic informations</p>
                 <form id="getStockHistory" onSubmit={handleGetStockHistory}>
                     <label htmlFor="">Stock's code name</label> <br />
-                    <input type="text" value={stock} placeholder="PETR4.SA" onChange={e => setStock(e.target.value)} /> <br />
+                    <input type="text" className="inputStock" value={stock} placeholder="PETR4.SA" onChange={e => setStock(e.target.value)} /> <br />
                     <label htmlFor="">From</label> <br />
-                    <input type="text" data-testid="from" value={from} placeholder="YYYY-MM-DD" onChange={e => setFrom(e.target.value)}/> <br />
+                    <input type="text" className="inputFrom" data-testid="from" value={from} placeholder="YYYY-MM-DD" onChange={e => setFrom(e.target.value)}/> <br />
                     <label htmlFor="">To</label> <br />
-                    <input type="text" data-testid="to" value={to} placeholder="YYYY-MM-DD" onChange={e => setTo(e.target.value)}/> <br />
-                    <input type="submit" value="Submit" form="getStockHistory" />
+                    <input type="text" className="inputTo" data-testid="to" value={to} placeholder="YYYY-MM-DD" onChange={e => setTo(e.target.value)}/> <br />
+                    <input type="submit" className="submitButton" value="Submit" form="getStockHistory" />
                 </form>
                 <br />
                 <br />

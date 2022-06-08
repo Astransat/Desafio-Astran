@@ -27,10 +27,10 @@ export default function Compare() {
         <div className="container">
             <form id="compareStocks" onSubmit={handleCompareStocks}>
                 <label >Main Stock</label> <br />
-                <input type="text" value={mainStock} placeholder="PETR4.SA" onChange={e => setMainStock(e.target.value)} /> <br />
+                <input type="text" className="inputStock" value={mainStock} placeholder="PETR4.SA" onChange={e => setMainStock(e.target.value)} /> <br />
                 <label >Other stocks</label> <br />
-                <input type="text" value={stocks} placeholder="BBAS3.SA,IBM,VALE3.SA" onChange={e => setStocks(e.target.value)} /> <br />
-                <input type="submit" value="Submit" form="compareStocks" />
+                <input type="text" className="inputStocks" value={stocks} placeholder="BBAS3.SA,IBM,VALE3.SA" onChange={e => setStocks(e.target.value)} /> <br />
+                <input type="submit" className="submitButton" value="Submit" form="compareStocks" />
             </form>
             <br />
             <br />
