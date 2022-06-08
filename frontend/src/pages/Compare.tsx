@@ -5,19 +5,17 @@ import axios from 'axios'
 export default function Compare() {
     const [mainStock, setMainStock] = useState('')
     const [stocks, setStocks] = useState('')
-    const [data, setData] = useState([])
+    const [returnData, setReturnData] = useState([])
 
     async function handleCompareStocks(e: any): Promise<void> {
         e.preventDefault()
 
-        const data = {
-            stocks: stocks.split(',')
-        }
+        const data = { stocks: stocks.split(',') }
 
         try {
             //const response = await api.post(`/stocks/${mainStock}/compare`, data)
             const response = await axios.post(`http://localhost:3001/stocks/${mainStock}/compare`, data)
-            setData(response.data.lastPrices)
+            setReturnData(response.data.lastPrices)
 
         } catch (err) {
             alert(err)
@@ -36,20 +34,20 @@ export default function Compare() {
             </form>
             <br />
             <br />
-
-            <div >
-                {data
-                    ?<div className="items-container">
-                        {data.map((stock: any) => (
-                            <ul>
-                                <li>Stock: {stock.name}</li>
-                                <li>Price: {stock.lastPrice}</li>
-                                <li>Priced at: {stock.pricedAt}</li>
+            
+            {
+                returnData.length != 0
+                    ?<div  data-testid="stocks-lists" className="items-container">
+                        {returnData.map((stock: any, index: number) => (
+                            <ul key={index}>
+                                <li key={stock.name}>Stock: {stock.name}</li>
+                                <li key={stock.lastPrice}>Price: {stock.lastPrice}</li>
+                                <li key={stock.pricedAt}>Priced at: {stock.pricedAt}</li>
                             </ul>
                         ))}
                     </div>
-                    :null}
-            </div>
+                    :null
+            }
         </div>
     )
 }

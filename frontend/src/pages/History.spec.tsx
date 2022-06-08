@@ -1,11 +1,11 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { render } from "@testing-library/react";
 import userEvent from '@testing-library/user-event'
-import Compare from "./Compare";
+import History from "./History";
 import { server } from '../mocks/server'
 
 
-describe('Compare', () => {
+describe('History', () => {
     // Mock the API functionality
     beforeAll(() => server.listen({
         onUnhandledRequest: 'error'
@@ -17,35 +17,38 @@ describe('Compare', () => {
 
 
     it('should not have rendered any stock information', () => {
-        const { queryByTestId, getByPlaceholderText, getByDisplayValue } = render(
+        const { queryByTestId, getByPlaceholderText, getByDisplayValue, getByTestId } = render(
             <Router>
-                <Compare />
+                <History />
             </Router>
         )
 
         expect(getByPlaceholderText('PETR4.SA')).toBeInTheDocument()
-        expect(getByPlaceholderText('BBAS3.SA,IBM,VALE3.SA')).toBeInTheDocument()
+        expect(getByTestId('from')).toBeInTheDocument()
+        expect(getByTestId('to')).toBeInTheDocument()
         expect(getByDisplayValue('Submit')).toBeInTheDocument()
-        expect(queryByTestId('stocks-lists')).not.toBeInTheDocument()
+        expect(queryByTestId('history-lists')).not.toBeInTheDocument()
     })
 
     it('should render stocks informations after fetching api data', async () => {
-        const { getByDisplayValue, findByText, getByPlaceholderText } = render(
+        const { getByDisplayValue, findByText, getByPlaceholderText, getByTestId } = render(
             <Router>
-                <Compare />
+                <History />
             </Router>
         )
 
         const inputStock = getByPlaceholderText('PETR4.SA')
-        const inputStocks = getByPlaceholderText('BBAS3.SA,IBM,VALE3.SA')
+        const inputFrom = getByTestId('from')
+        const inputTo = getByTestId('to')
         const button = getByDisplayValue('Submit')
 
         await userEvent.type(inputStock, 'IBM')
-        await userEvent.type(inputStocks, 'BBAS3.SA,PETR4.SA')
+        await userEvent.type(inputFrom, '2022-06-01')
+        await userEvent.type(inputTo, '2022-06-03')
         await userEvent.click(button)
 
-        expect(await findByText('Stock: IBM')).toBeInTheDocument()
-        expect(await findByText('Stock: PETR4.SA')).toBeInTheDocument()
-        expect(await findByText('Stock: BBAS3.SA')).toBeInTheDocument()
+        expect(await findByText('Priced at: 2022-06-01')).toBeInTheDocument()
+        expect(await findByText('Priced at: 2022-06-02')).toBeInTheDocument()
+        expect(await findByText('Priced at: 2022-06-03')).toBeInTheDocument()
     })
 })

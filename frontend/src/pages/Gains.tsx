@@ -6,7 +6,7 @@ export default function Gains() {
     const [stock, setStock] = useState('')
     const [amount, setAmount] = useState('')
     const [date, setDate] = useState('')
-    const [data, setData] = useState()
+    const [data, setData] = useState({})
 
     async function handleGains(e: any): Promise<void> {
         e.preventDefault()
@@ -35,14 +35,14 @@ export default function Gains() {
             <br />
 
             {
-                data
-                    ?<ul>
-                        <li>Stock: {data.name}</li>
-                        <li>Purchased Amount: {data.purchasedAmount}</li>
-                        <li>Purchased At: {data.purchasedAt}</li>
-                        <li>Price at Purchase: {data.priceAtDate}</li>
-                        <li>Last Price: {data.lastPrice}</li>
-                        <li>Capital Gains: {data.capitalGains}</li>
+                Object.keys(data).length != 0
+                    ?<ul data-testid="stock_list" key={Object.keys(data).length}>
+                        <li key={data.name}>Stock: {data.name}</li>
+                        <li key={data.purchasedAmount}>Purchased amount: {data.purchasedAmount}</li>
+                        <li key={data.purchasedAt}>Purchased at: {data.purchasedAt}</li>
+                        <li key={data.priceAtDate}>Price at purchase: {data.priceAtDate}</li>
+                        <li key={data.lastPrice}>Last price: {data.lastPrice}</li>
+                        <li key={data.capitalGains}>Capital gains: {data.capitalGains}</li>
                     </ul>
                     :null
             }

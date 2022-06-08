@@ -4,14 +4,14 @@ import axios from 'axios'
 
 export default function Quote() {
     const [stock, setStock] = useState('')
-    const [data, setData] = useState()
+    const [data, setData] = useState({})
 
     async function handleGetStockQuote(e: any): Promise<void> {
         e.preventDefault()
 
         try {
             //const response = await api.get(`stocks/${stock}/quote`)
-            const response = await axios.get(`http://localhost:3001/stocks/IBM/quote`)
+            const response = await axios.get(`http://localhost:3001/stocks/${stock}/quote`)
             setData(response.data)
             
         } catch (err) {
@@ -32,7 +32,7 @@ export default function Quote() {
             <br />
 
             {
-                data
+                Object.keys(data).length != 0
                     ?<ul data-testid="stock_list">
                         <li>Stock: {data.name}</li>
                         <li>Price: {data.lastPrice}</li>
