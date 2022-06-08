@@ -1,5 +1,6 @@
 import { useState } from "react"
-import api from "../services/api"
+//import api from "../services/api"
+import axios from 'axios'
 
 export default function Gains() {
     const [stock, setStock] = useState('')
@@ -11,11 +12,12 @@ export default function Gains() {
         e.preventDefault()
 
         try {
-            const response = await api.get(`/stocks/${stock}/gains?purchasedAmount=${amount}&purchasedAt=${date}`)
+            //const response = await api.get(`/stocks/${stock}/gains?purchasedAmount=${amount}&purchasedAt=${date}`)
+            const response = await axios.get(`http://localhost:3001/stocks/${stock}/gains?purchasedAmount=${amount}&purchasedAt=${date}`)
             setData(response.data)
+        } catch (err) {
             alert(err)
         }
-
     }
 
     return (

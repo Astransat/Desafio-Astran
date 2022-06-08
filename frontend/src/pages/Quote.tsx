@@ -1,5 +1,6 @@
 import { useState } from "react"
-import api from "../services/api"
+//import api from "../services/api"
+import axios from 'axios'
 
 export default function Quote() {
     const [stock, setStock] = useState('')
@@ -9,7 +10,8 @@ export default function Quote() {
         e.preventDefault()
 
         try {
-            const response = await api.get(`stocks/${stock}/quote`)
+            //const response = await api.get(`stocks/${stock}/quote`)
+            const response = await axios.get(`http://localhost:3001/stocks/IBM/quote`)
             setData(response.data)
             
         } catch (err) {
@@ -31,7 +33,7 @@ export default function Quote() {
 
             {
                 data
-                    ?<ul>
+                    ?<ul data-testid="stock_list">
                         <li>Stock: {data.name}</li>
                         <li>Price: {data.lastPrice}</li>
                         <li>Date: {data.pricedAt}</li>

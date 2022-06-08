@@ -1,5 +1,6 @@
 import { useState } from "react"
-import api from "../services/api"
+//import api from "../services/api"
+import axios from 'axios'
 
 export default function Compare() {
     const [mainStock, setMainStock] = useState('')
@@ -14,7 +15,8 @@ export default function Compare() {
         }
 
         try {
-            const response = await api.post(`/stocks/${mainStock}/compare`, data)
+            //const response = await api.post(`/stocks/${mainStock}/compare`, data)
+            const response = await axios.post(`http://localhost:3001/stocks/${mainStock}/compare`, data)
             setData(response.data.lastPrices)
 
         } catch (err) {

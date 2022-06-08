@@ -1,9 +1,11 @@
 p {
     text-align: center;
 }
+
 ul {
     text-align: center;
 }
+
 form {
     text-align: center;
 }
@@ -14,9 +16,7 @@ form {
     justify-content: center;
     flex-wrap: wrap;
     gap: 2em;
-    
 }
-
 
 .items-container {
     width: 100%;

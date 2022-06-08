@@ -1,5 +1,6 @@
 import { useState } from "react"
-import api from "../services/api"
+//import api from "../services/api"
+import axios from 'axios'
 
 export default function History() {
     const [stock, setStock] = useState('')
@@ -11,7 +12,8 @@ export default function History() {
         e.preventDefault()
 
         try{
-            const response = await api.get(`/stocks/${stock}/history?from=${from}&to=${to}`)
+            //const response = await api.get(`/stocks/${stock}/history?from=${from}&to=${to}`)
+            const response = await axios.get(`http://localhost:3001/stocks/${stock}/history?from=${from}&to=${to}`)
             setData(response.data.prices)
         } catch (err) {
             alert(JSON.stringify(err))
