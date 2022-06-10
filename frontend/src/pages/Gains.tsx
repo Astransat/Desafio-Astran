@@ -6,7 +6,7 @@ export default function Gains() {
     const [stock, setStock] = useState('')
     const [amount, setAmount] = useState('')
     const [date, setDate] = useState('')
-    const [data, setData] = useState({})
+    const [data, setData] = useState(Object)
 
     async function handleGains(e: any): Promise<void> {
         e.preventDefault()

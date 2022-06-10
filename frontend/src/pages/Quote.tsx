@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export default function Quote() {
     const [stock, setStock] = useState('')
-    const [data, setData] = useState({})
+    const [data, setData] = useState(Object)
 
     async function handleGetStockQuote(e: any): Promise<void> {
         e.preventDefault()
