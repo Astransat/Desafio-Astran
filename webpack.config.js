@@ -35,7 +35,7 @@ const frontConfig = {
         extensions: [".ts", ".tsx", ".js"]
     },
     output: {
-      path: path.resolve(__dirname, "../build"),
+      path: path.resolve(__dirname, "./build"),
       filename: "bundle-front.js",
     },
     devServer: {
@@ -67,7 +67,7 @@ const backConfig = {
         ]
     },
     output: {
-      path: path.resolve(__dirname, "../build"),
+      path: path.resolve(__dirname, "./build"),
       filename: "bundle-back.js"
     },
     plugins: [
